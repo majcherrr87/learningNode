@@ -1,9 +1,15 @@
-import { readFile, writeFile, mkdir, rename } from "fs/promises";
+import { rm } from "fs/promises";
 
 (async () => {
+  const oldFile = process.argv[2];
+  const newFile = process.argv[3];
   try {
-    await rename("./data/text2.txt", "./megaK/text2.txt");
+    rm(oldFile, {
+      recursive: true,
+    });
   } catch (e) {
-    console.log(`Bład`, e);
+    if (e.code === "ENOENT") {
+      console.log(`${oldFile} does not exist`);
+    }
   }
 })();
