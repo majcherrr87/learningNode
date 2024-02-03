@@ -1,16 +1,20 @@
-import { writeFile, readFile, appendFile } from "fs/promises";
-const FILE_NAME = "./data/hello.txt";
+import { readFile, writeFile } from "fs/promises";
+
+const FILE_NAME = "./data/input1.json";
+
 (async () => {
   try {
-    const numberOfFile = await readFile(FILE_NAME, "utf8");
+    const result = await readFile(FILE_NAME, "utf8");
+    const tab = JSON.parse(result);
+    const sum = tab.reduce((acumulator, current) => acumulator + current, 0);
+    await writeFile("./data/sum.txt", String(sum));
 
-    const arr = numberOfFile.split("\n");
-
-    const lastElementOfArray = arr[arr.length - 1];
-
-    await appendFile(FILE_NAME, `\n${lastElementOfArray * 2}`, "utf8");
-    console.log(`file is saved`);
+    console.log(`Plik został zapisany, suma to ${sum}`);
   } catch (e) {
-    console.log(`coś poszło nie tak `, e);
+    if (e.code === "ENOENT") {
+      console.log(`File is not valid!`);
+    } else {
+      console.log(`File`);
+    }
   }
 })();
