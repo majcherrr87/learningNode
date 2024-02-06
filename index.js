@@ -1,15 +1,14 @@
-import { rm } from "fs/promises";
+import path, { basename, join, dirname, extname } from "path";
+import { fileURLToPath } from "url";
 
-(async () => {
-  const oldFile = process.argv[2];
-  const newFile = process.argv[3];
-  try {
-    rm(oldFile, {
-      recursive: true,
-    });
-  } catch (e) {
-    if (e.code === "ENOENT") {
-      console.log(`${oldFile} does not exist`);
-    }
-  }
-})();
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
+// const fullPath = join(__dirname, process.argv[2]);
+
+const userPath = process.argv[2];
+
+console.log(`dirname`, dirname(userPath));
+console.log(`basename`, basename(userPath));
+console.log(`extname`, extname(userPath));
