@@ -1,14 +1,10 @@
-import path, { basename, join, dirname, extname } from "path";
-import { fileURLToPath } from "url";
+import fetch from "node-fetch";
 
-const __filename = fileURLToPath(import.meta.url);
+const cityName = process.argv[2];
 
-const __dirname = path.dirname(__filename);
+const processWeatherData = (data) => {};
 
-// const fullPath = join(__dirname, process.argv[2]);
-
-const userPath = process.argv[2];
-
-console.log(`dirname`, dirname(userPath));
-console.log(`basename`, basename(userPath));
-console.log(`extname`, extname(userPath));
+fetch("https://danepubliczne.imgw.pl/api/data/synop")
+  .then((r) => r.json())
+  .then(processWeatherData);
+//21:50
