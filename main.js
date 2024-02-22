@@ -1,13 +1,13 @@
-import { promisify } from "util";
-import { exec } from "child_process";
+import { decryptText, encryptText } from "./cipher.js";
 
-const execPromisify = promisify(exec);
+const SALT =
+  "dff734riddsf82r28ry sdfsdfasdffsdfSDwfwe233@$@$%#$65^$&6GdfgFDg6&%^7RTgsFsdTsgSFg28*&&%$&*HHGDAYTRR";
 
 (async () => {
-  try {
-    const { stdout } = await execPromisify("ping 8.8.8.8");
-    console.log(stdout);
-  } catch (errorr) {
-    console.error("oh no", err);
-  }
+  const encrypted = await encryptText(
+    "Hej to jest tajna wiadomość do lisy kotóch",
+    "123Kiełbasa",
+    SALT
+  );
+  console.log(``, encrypted);
 })();
