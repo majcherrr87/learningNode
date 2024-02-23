@@ -1,13 +1,13 @@
-import { decryptText, encryptText } from "./cipher.js";
+import { hash, compare } from "bcrypt";
 
-const SALT =
-  "dff734riddsf82r28ry sdfsdfasdffsdfSDwfwe233@$@$%#$65^$&6GdfgFDg6&%^7RTgsFsdTsgSFg28*&&%$&*HHGDAYTRR";
-
-(async () => {
-  const encrypted = await encryptText(
-    "Hej to jest tajna wiadomość do lisy kotóch",
-    "123Kiełbasa",
-    SALT
-  );
-  console.log(``, encrypted);
-})();
+hash("to jest text do hashowania", 10, (err, hash) => {
+  if (err) throw new Error();
+  console.log(hash);
+  compare("to jest text do hashowania.", hash, (err, res) => {
+    if (res) {
+      console.log("logged in");
+    } else {
+      console.log("Nooo");
+    }
+  });
+});
