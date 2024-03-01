@@ -1,14 +1,21 @@
 import { readFile, writeFile } from "fs/promises";
-import { encryptText } from "../cipher.js";
+import { encryptText, hash } from "../cipher.js";
+import { ENCRYPTION_SALT, HASH_SALT } from "../constants.js";
 
 const [, , fileName, password] = process.argv;
-const SALT = "dfdffojweofwehrewihfwe ewo2o whw84ywweer";
 
 (async () => {
   try {
     const content = await readFile(fileName, "utf8");
-    const encrypted = await encryptText(content, password, SALT);
-    await writeFile(fileName, JSON.stringify(encrypted), "utf8");
+    const encrypted = await encryptText(content, password, ENCRYPTION_SALT);
+    const contentHash = hash(content, HASH_SALT);
+
+    await writeFile(
+      fileName,
+      JSON.stringify({ ...encrypted, contentHash }),
+      "utf8"
+    );
+    console.log("Zrobione");
   } catch (e) {
     console.error("Bład", e);
   }

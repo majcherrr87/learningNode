@@ -1,17 +1,29 @@
 import { readFile, writeFile } from "fs/promises";
-import { decryptText } from "../cipher.js";
+import { decryptText, hash } from "../cipher.js";
+import { ENCRYPTION_SALT, HASH_SALT } from "../constants.js";
 
 const [, , fileName, password] = process.argv;
-const SALT = "dfdffojweofwehrewihfwe ewo2o whw84ywweer";
 
 (async () => {
   try {
     const content = await readFile(fileName, "utf8");
-    const { encrypted, iv } = JSON.parse(content);
+    const { encrypted, iv, contentHash } = JSON.parse(content);
 
-    const decrypted = await decryptText(encrypted, password, SALT, iv);
-    await writeFile(fileName, decrypted, "utf8");
+    const decrypted = await decryptText(
+      encrypted,
+      password,
+      ENCRYPTION_SALT,
+      iv
+    );
+    const currentHash = hash(decrypted, HASH_SALT);
+
+    if (contentHash === currentHash) {
+      await writeFile(fileName, decrypted, "utf8");
+      console.log("Odszyfrowano prawidłowi oba pliki są identyczne.");
+    } else {
+      console.log("File is not original");
+    }
   } catch (e) {
-    console.error("Bład", e);
+    console.error("Bład coś poszło nie tak", e);
   }
 })();
