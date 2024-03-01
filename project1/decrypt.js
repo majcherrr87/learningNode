@@ -1,5 +1,5 @@
 import { readFile, writeFile } from "fs/promises";
-import { decryptText, hash } from "../cipher.js";
+import { decryptBinary, hash } from "../cipher.js";
 import { ENCRYPTION_SALT, HASH_SALT } from "../constants.js";
 
 const [, , fileName, password] = process.argv;
@@ -9,7 +9,7 @@ const [, , fileName, password] = process.argv;
     const content = await readFile(fileName, "utf8");
     const { encrypted, iv, contentHash } = JSON.parse(content);
 
-    const decrypted = await decryptText(
+    const decrypted = await decryptBinary(
       encrypted,
       password,
       ENCRYPTION_SALT,
@@ -18,7 +18,7 @@ const [, , fileName, password] = process.argv;
     const currentHash = hash(decrypted, HASH_SALT);
 
     if (contentHash === currentHash) {
-      await writeFile(fileName, decrypted, "utf8");
+      await writeFile(fileName, decrypted, "binary");
       console.log("Odszyfrowano prawidłowi oba pliki są identyczne.");
     } else {
       console.log("File is not original");
