@@ -1,4 +1,7 @@
-const buff = Buffer.alloc(20);
+import { createReadStream, createWriteStream } from "fs";
+import { pipeline } from "stream/promises";
 
-buff.write("Hello, World!", "utf8");
-console.log(buff);
+(async () => {
+  await pipeline(createReadStream("foto.jpg"), createWriteStream("foto2.jpg"));
+  console.log("done!");
+})();
