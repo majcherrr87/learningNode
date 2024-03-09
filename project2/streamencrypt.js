@@ -3,7 +3,7 @@ import { createReadStream, createWriteStream } from "fs";
 import { createCipheriv, randomBytes } from "crypto";
 import { promisify } from "util";
 import { scrypt } from "crypto";
-import { ENCRYPTION_SALT } from "../constants.js";
+import { ENCRYPTION_SALT } from "../oldFile/constants.js";
 const proScrypt = promisify(scrypt);
 const randomBytesPromisify = promisify(randomBytes);
 

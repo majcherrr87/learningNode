@@ -1,12 +1,11 @@
-import { createReadStream, createWriteStream } from "fs";
-import { pipeline } from "stream/promises";
-import { createGunzip } from "zlib";
+import { TickTock } from "./tic-tok.js";
 
-(async () => {
-  await pipeline(
-    createReadStream("json2.json"),
-    createGunzip(),
-    createWriteStream("json3.json")
-  );
-  console.log("done!");
-})();
+const events = new TickTock();
+
+events
+  .on("socondElapsed", ({ test, name }) => {
+    console.log(`cześć  ${test} co się nazywa ${name}`);
+  })
+  .on("fifeElapsed", ({ test, name }) => {
+    console.log(`cześć  ${test} co się nazywa ${name}`);
+  });
