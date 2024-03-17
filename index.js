@@ -1,11 +1,17 @@
-import { TickTock } from "./tic-tok.js";
+import { createServer } from "http";
+import { readFile } from "fs/promises";
 
-const events = new TickTock();
+const server = createServer();
 
-events
-  .on("socondElapsed", ({ test, name }) => {
-    console.log(`cześć  ${test} co się nazywa ${name}`);
+server
+  .on("request", async (req, res) => {
+    const html = await readFile("./index.html", "utf-8");
+
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+      "X-Kot": "Hello World MegaK",
+    });
+
+    res.end(html);
   })
-  .on("fifeElapsed", ({ test, name }) => {
-    console.log(`cześć  ${test} co się nazywa ${name}`);
-  });
+  .listen(3000, "127.0.0.1");

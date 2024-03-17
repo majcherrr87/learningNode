@@ -3,28 +3,20 @@ import { Restaurant } from "./restaurant.js";
 const megaRestaurant = new Restaurant();
 let tablesCount = 25;
 
+const decTableCount = ({ count, message }) => {
+  tablesCount += count;
+  console.log(`${message} Dotępna liczba stolików ${tablesCount}`);
+};
+const incTableCount = ({ count, message }) => {
+  tablesCount += count;
+  console.log(`${message} Dotępna liczba stolików ${tablesCount}`);
+};
 megaRestaurant
   .on("open", (text) => {
     console.log(text);
   })
-  .on("takeTable", (text) => {
-    tablesCount += -1;
-    console.log(`${text} Dotępna liczba stolików ${tablesCount}`);
-  })
-  .on("reserveTable", (text) => {
-    tablesCount += -1;
-    console.log(`${text} Dotępna liczba stolików ${tablesCount}`);
-  })
-  .on("cancelTable", (text) => {
-    tablesCount += 1;
-    console.log(`${text} Dotępna liczba stolików ${tablesCount}`);
-  })
-  .on("cleanupTable", (text) => {
-    tablesCount += 1;
-    console.log(`${text} Dotępna liczba stolików ${tablesCount}`);
-  })
+  .on("tableCountChange", (text) => decTableCount(text))
   .on("close", (text) => {
-    tablesCount += 1;
     console.log(`${text}`);
   });
 
